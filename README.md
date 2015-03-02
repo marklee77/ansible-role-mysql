@@ -1,9 +1,9 @@
-marklee77.mariadb
+marklee77.mysql
 =================
 
-[![Build Status](https://travis-ci.org/marklee77/ansible-role-mariadb.svg?branch=master)](https://travis-ci.org/marklee77/ansible-role-mariadb)
+[![Build Status](https://travis-ci.org/marklee77/ansible-role-mysql.svg?branch=master)](https://travis-ci.org/marklee77/ansible-role-mysql)
 
-The purpose of this role is to deploy MariaDB onto Ubuntu. There is also an
+The purpose of this role is to deploy mysql onto Ubuntu. There is also an
 support for an experimental "dockerized" deployment. This dockerized deployment
 copies the role to the target machine and uses the original ansible-based
 functionality to build a docker image, and then uses recent ansible features to
@@ -19,18 +19,18 @@ Role Variables
 
 Configuration variables are shown below along with default values.
 
-- mariadb_repository_mirror: http://mirrors.coreix.net/mariadb
-- mariadb_version: 10.0
-- mariadb_mysql_root_password: random value
-- mariadb_bind_address: 127.0.0.1
-- mariadb_port: 3306
+- mysql_repository_mirror: http://mirrors.coreix.net/mysql
+- mysql_version: 10.0
+- mysql_mysql_root_password: random value
+- mysql_bind_address: 127.0.0.1
+- mysql_port: 3306
 
 The variables below only affect the dockerized deployment:
 
-- mariadb_dockerized_deployment: false
-- mariadb_docker_username: default
-- mariadb_docker_imagename: mariadb
-- mariadb_docker_containername: mariadb
+- mysql_dockerized_deployment: false
+- mysql_docker_username: default
+- mysql_docker_imagename: mysql
+- mysql_docker_containername: mysql
 
 Example Playbook
 -------------------------
@@ -38,7 +38,7 @@ Example Playbook
     - hosts: all
       sudo: True
       roles:
-        - marklee77.mariadb
+        - marklee77.mysql
 
 License
 -------

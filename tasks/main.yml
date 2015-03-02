@@ -2,10 +2,10 @@
 - include: prep.yml
 
 - include: docker.yml
-  when: mariadb_dockerized_deployment
+  when: mysql_dockerized_deployment
 
 - include: install.yml
-  when: not mariadb_dockerized_deployment
+  when: not mysql_dockerized_deployment
 
 - include: configure.yml
-  when: not mariadb_dockerized_deployment 
+  when: not mysql_dockerized_deployment 

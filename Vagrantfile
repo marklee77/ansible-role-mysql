@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     machine.vm.provision "ansible" do |ansible|
       ansible.extra_vars = {
-        mariadb_dockerized_deployment: true
+        mysql_dockerized_deployment: true
       }
       ansible.playbook = "provisioning/deploy.yml"
     end
@@ -41,9 +41,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     machine.vm.provision "ansible" do |ansible|
       ansible.extra_vars = {
-        mariadb_dockerized_deployment: true,
-        mariadb_docker_username: "marklee77",
-        mariadb_docker_build_image: false
+        mysql_dockerized_deployment: true,
+        mysql_docker_username: "marklee77",
+        mysql_docker_build_image: false
       }
       ansible.playbook = "provisioning/deploy.yml"
     end

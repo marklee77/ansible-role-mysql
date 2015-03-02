@@ -7,16 +7,16 @@
   with_items:
     - "{{ ansible_env.PWD }}/.ansible_cache"
     - "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild"
-  when: mariadb_docker_build_image
+  when: mysql_docker_build_image
 
 - name: synchronize role to remote cache for Dockerfile build
   synchronize:
     src: ../
-    dest: "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild/mariadb"
+    dest: "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild/mysql"
     archive: no
     checksum: yes
     recursive: yes
-  when: mariadb_docker_build_image
+  when: mysql_docker_build_image
 
 - name: ensure docker image configuration directory exists
   file:
@@ -24,51 +24,51 @@
     owner: "{{ ansible_ssh_user }}"
     state: directory
   with_items:
-    - "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild/mariadb/provisioning/group_vars"
-  when: mariadb_docker_build_image
+    - "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild/mysql/provisioning/group_vars"
+  when: mysql_docker_build_image
 
 - name: update configuration used to build docker image from template
   template:
-    src: ansible_cache/dockerbuild/mariadb/provisioning/group_vars/all.yml
+    src: ansible_cache/dockerbuild/mysql/provisioning/group_vars/all.yml
     owner: "{{ ansible_ssh_user }}"
-    dest: "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild/mariadb/provisioning/group_vars/all.yml"
-  when: mariadb_docker_build_image
+    dest: "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild/mysql/provisioning/group_vars/all.yml"
+  when: mysql_docker_build_image
 
-- name: ensure mariadb docker image has been built
+- name: ensure mysql docker image has been built
   docker_image:
-    name: "{{ mariadb_docker_username }}/{{ mariadb_docker_imagename }}"
-    path: "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild/mariadb"
+    name: "{{ mysql_docker_username }}/{{ mysql_docker_imagename }}"
+    path: "{{ ansible_env.PWD }}/.ansible_cache/dockerbuild/mysql"
     state: present
-  when: mariadb_docker_build_image
+  when: mysql_docker_build_image
 
-- name: ensure mariadb data container exists
+- name: ensure mysql data container exists
   docker:
-    image: "{{ mariadb_docker_username }}/{{ mariadb_docker_imagename }}"
-    name: "{{ mariadb_docker_containername }}_data"
+    image: "{{ mysql_docker_username }}/{{ mysql_docker_imagename }}"
+    name: "{{ mysql_docker_containername }}_data"
     command: /bin/true
     detach: no
     state: present
 
-- name: ensure mariadb service is running
+- name: ensure mysql service is running
   docker:
-    image: "{{ mariadb_docker_username }}/{{ mariadb_docker_imagename }}"
-    name: "{{ mariadb_docker_containername }}_server"
-    volumes_from: "{{ mariadb_docker_containername }}_data"
-    ports: "{{ mariadb_bind_address }}:{{ mariadb_port }}:3306"
+    image: "{{ mysql_docker_username }}/{{ mysql_docker_imagename }}"
+    name: "{{ mysql_docker_containername }}_server"
+    volumes_from: "{{ mysql_docker_containername }}_data"
+    ports: "{{ mysql_bind_address }}:{{ mysql_port }}:3306"
     detach: yes
     env: 
-      - mysql_root_password={{ mariadb_mysql_root_password }}
+      - mysql_root_password={{ mysql_mysql_root_password }}
     state: running
   register: server_startup
 
 - name: block until the service configuration has been completed
   mysql_user:
-    login_host: "{{ mariadb_bind_address }}"
-    login_port: "{{ mariadb_port }}"
+    login_host: "{{ mysql_bind_address }}"
+    login_port: "{{ mysql_port }}"
     login_user: root
-    login_password: "{{ mariadb_mysql_root_password }}"
+    login_password: "{{ mysql_mysql_root_password }}"
     name: root
-    password: "{{ mariadb_mysql_root_password }}"
+    password: "{{ mysql_mysql_root_password }}"
     host: localhost
     state: present
   register: server_connect

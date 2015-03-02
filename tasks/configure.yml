@@ -1,5 +1,5 @@
 ---
-- name: ensure mariadb is started and enabled
+- name: ensure mysql is started and enabled
   service:
     name: mysql
     state: started
@@ -16,11 +16,11 @@
     - ::1
     - "%"
 
-- name: update mariadb root password for local root account
+- name: update mysql root password for local root account
   mysql_user: 
     name: root 
     host: localhost 
-    password: "{{ mariadb_mysql_root_password }}"
+    password: "{{ mysql_mysql_root_password }}"
     priv: "*.*:ALL,GRANT"
     state: present
 
@@ -34,16 +34,16 @@
     group: root 
     mode: 0600
 
-- name: update mariadb root password for docker host
+- name: update mysql root password for docker host
   mysql_user: 
     name: root 
-    host: "{{ mariadb_docker_host }}"
-    password: "{{ mariadb_mysql_root_password }}" 
+    host: "{{ mysql_docker_host }}"
+    password: "{{ mysql_mysql_root_password }}" 
     priv: "*.*:ALL,GRANT"
     state: present
-  when: mariadb_dockerize_context is defined
+  when: mysql_dockerize_context is defined
 
-- name: ensure mariadb is configured to bind to the specified address and port
+- name: ensure mysql is configured to bind to the specified address and port
   ini_file:
     dest: /etc/mysql/my.cnf
     section: mysqld
@@ -51,10 +51,10 @@
     value: "{{ item.value }}"
   register: my_cnf
   with_items:
-    - { option: bind-address, value: "{{ mariadb_bind_address }}" }
-    - { option: port, value: "{{ mariadb_port }}" }
+    - { option: bind-address, value: "{{ mysql_bind_address }}" }
+    - { option: port, value: "{{ mysql_port }}" }
 
-- name: restart mariadb if necessary
+- name: restart mysql if necessary
   service:
     name: mysql
     state: restarted

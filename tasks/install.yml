@@ -1,5 +1,5 @@
 ---
-- name: ensure mariadb dependency packages are installed
+- name: ensure mysql dependency packages are installed
   apt: 
     pkg: "{{ item }}"
     state: latest 
@@ -9,23 +9,12 @@
     - python-mysqldb
     - python-software-properties
 
-- name: ensure mariadb repository public key is installed
-  command: apt-key adv --recv-key --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-  register: apt_key
-  changed_when: apt_key.stderr.find("imported") != -1
-
-- name: ensure mariadb repository is enabled
-  apt_repository: 
-    repo: deb {{ mariadb_repository_mirror }}/repo/{{ mariadb_version }}/ubuntu {{ ansible_distribution_release }} main
-    update_cache: yes
-    state: present
-
-- name: ensure mariadb packages are installed
+- name: ensure mysql packages are installed
   apt: 
     pkg: "{{ item }}"
     state: latest 
     update_cache: yes 
     cache_valid_time: 600
   with_items:
-    - mariadb-server
-    - mariadb-client
+    - mysql-server
+    - mysql-client
