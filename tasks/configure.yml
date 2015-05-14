@@ -5,6 +5,11 @@
     state: started
     enabled: yes
 
+#    login_host: "{{ mysql_bind_address }}"
+#    login_port: "{{ mysql_port }}"
+#    login_user: root
+#    login_password: "{{ mysql_mysql_root_password }}"
+
 - name: ensure anonymous users are not in the database
   mysql_user:
     name: ""
