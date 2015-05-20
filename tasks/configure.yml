@@ -5,6 +5,11 @@
     state: started
     enabled: yes
 
+- name: bounce mysql if necessary to create unix socket
+  command: service mysql restart
+  args:
+    creates: /var/run/mysqld/mysqld.sock
+
 - name: ensure anonymous users are not in the database
   mysql_user:
     name: ""
@@ -59,8 +64,3 @@
     name: mysql
     state: restarted
   when: my_cnf|changed
-
-- name: bounce mysql if necessary to create unix socket
-  command: service mysql restart
-  args:
-    creates: /var/run/mysqld/mysqld.sock
