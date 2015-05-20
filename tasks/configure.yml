@@ -59,3 +59,8 @@
     name: mysql
     state: restarted
   when: my_cnf|changed
+
+- name: bounce mysql if necessary to create unix socket
+  command: service mysql restart
+  args:
+    creates: /var/run/mysqld/mysqld.sock
