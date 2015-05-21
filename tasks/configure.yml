@@ -60,7 +60,5 @@
     - { option: port, value: "{{ mysql_port }}" }
 
 - name: restart mysql if necessary
-  service:
-    name: mysql
-    state: restarted
+  command: service mysql restart
   when: my_cnf|changed
