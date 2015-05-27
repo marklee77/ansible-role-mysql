@@ -1,8 +1,8 @@
 ---
 - include: prep.yml
 
-- include: docker.yml
-  when: mysql_dockerized_deployment
+#- include: docker.yml
+#  when: mysql_dockerized_deployment
 
 - include: install.yml
   when: not mysql_dockerized_deployment
