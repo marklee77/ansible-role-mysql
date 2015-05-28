@@ -1,17 +1,14 @@
 ---
 galaxy_info:
   author: Mark Stillwell
-  description: MariaDB for Ubuntu
+  description: MySQL for Ubuntu
   license: GPLv2
   min_ansible_version: 1.2
   platforms:
   - name: Ubuntu
     versions:
-    - precise
-    - quantal
-    - raring
-    - saucy
     - trusty
+    - precise
   categories:
   - database
   - database:sql

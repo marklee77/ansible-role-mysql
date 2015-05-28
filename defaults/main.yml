@@ -9,12 +9,3 @@ mysql_mysql_root_password: >
 
 mysql_bind_address: 127.0.0.1
 mysql_port: 3306
-
-# The variables below only apply to dockerized deployment
-# NOTE: there seems to be some kind of bug when boolean variables are
-# expressions...
-mysql_dockerized_deployment: false
-mysql_docker_username: "{{ default_docker_username|default('default') }}"
-mysql_docker_build_image: true
-mysql_docker_imagename: mysql
-mysql_docker_containername: mysql

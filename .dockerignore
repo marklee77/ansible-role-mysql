@@ -1,9 +1,0 @@
-.*.swp
-Vagrantfile
-.dockerignore
-.git
-.gitignore
-.vagrant
-private
-roles
-templates/ansible_cache
